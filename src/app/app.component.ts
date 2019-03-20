@@ -15,7 +15,7 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private auth: AuthService,
+    public auth: AuthService,
     private router: Router
   ) {
     this.initializeApp();
@@ -26,10 +26,6 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
-  }
-
-  isLogged() {
-    return this.auth.isLogged();
   }
 
   goToPage(path) {

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from "rxjs";
+import { Observable, from, BehaviorSubject } from "rxjs";
 import { delay, map } from "rxjs/operators";
+import { Storage } from '@ionic/storage';
 
 interface Usertoken {
   username: string, 
@@ -42,13 +43,19 @@ export class AuthService {
 
   private usertoken: Usertoken;
   private lastLoginErrorMessage: string;
+  private isLogged$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  constructor() { 
+  constructor(private storage: Storage) { 
     this.usertoken = {
       username: '',
       token: ''
     };
     this.lastLoginErrorMessage = null;
+    this.checkLogged();
+  }
+
+  getIsLogged$() {
+    return this.isLogged$.asObservable();
   }
 
   /**
@@ -67,8 +74,10 @@ export class AuthService {
           respuesta => {
             this.usertoken = respuesta.usertoken;
             this.lastLoginErrorMessage = null;
-            localStorage.setItem('username',respuesta.usertoken.username);
-            localStorage.setItem('token', respuesta.usertoken.token);
+            this.storage.set('username',respuesta.usertoken.username);
+            this.storage.set('token', respuesta.usertoken.token).then(
+              () => this.isLogged$.next(true)
+            );
             return true;
           })
       );
@@ -91,16 +100,22 @@ export class AuthService {
       username: '',
       token: ''
     };
-    localStorage.removeItem('username');
-    localStorage.removeItem('token');
+    this.storage.remove('username');
+    this.storage.remove('token').then(
+      () => this.isLogged$.next(false)
+    );
   }
 
-  isLogged(): boolean {
-    if(localStorage.getItem('token')) {
-      return true;
-    } else {
-      return false;
-    }
+  private checkLogged() {
+    this.storage.get('token').then(
+      token => {
+        if(token) {
+          this.isLogged$.next(true)
+        } else {
+          this.isLogged$.next(false)
+        }
+      }
+    );
   }
 
   getLastLoginErrorMessage(): string {
