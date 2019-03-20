@@ -1,7 +1,12 @@
 # curso-ionic-ejercicio05-login
-Ejercicio para el tema 5 del curso de Ionic
+Soluciones de los ejercicios de los temas 5 y 10 del curso de Ionic
 
-## Enunciado
+## Soluciones
+
+- Solcuión ejercicio Tema 5: https://github.com/trainingit-Ionic/ejercicio-tema-5-carherco/commit/f0896061d3a61771bc636ff8a1cfca7bc482c0d5
+- Solución ejercicio Tema 10: https://github.com/trainingit-Ionic/ejercicio-tema-5-carherco/commit/49c7477ce846da1f36338dc8621db7b09f8362c3
+
+## Enunciado ejercicio Tema 5
 
 Se parte de una app que tiene las siguientes páginas:
 
@@ -28,3 +33,8 @@ Se pide:
 
 **NO se debe modificar el servicio AuthService.**
 
+## Enunciado ejercicio Tema 10
+
+Modifica el servicio AuthService del ejercicio 5 para que utilice IonicStorage en vez de localstorage.
+
+Entrega el ejercicio con un commit en el proyecto del ejercicio 5.
